@@ -30,6 +30,4 @@ const MainNaviagtor = () => {
 };
 
 // TODO createSwitchNavigator
-export default () => (
-    
-);
+export default InitNaviagtor;
