@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -11,19 +11,9 @@ import DetailPage from '../page/DetailPage';
 
 const Stack = createStackNavigator();
 
-const InitNaviagtor = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Welcome" component={WelcomePage} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
-
 const MainNaviagtor = () => {
   return (
-    <NavigationContainer>
+    <>
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
@@ -38,9 +28,49 @@ const MainNaviagtor = () => {
           }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </>
   );
 };
 
+class AppNavigator extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {isWelcome: true};
+  }
+  _timer = null;
+  componentDidMount() {
+    this._timer = setTimeout(() => {
+      this.setState({isWelcome: false});
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    if (this._timer) {
+      clearTimeout(this._timer);
+    }
+  }
+
+  render() {
+    const {isWelcome} = this.state;
+    return (
+      <NavigationContainer>
+        <Stack.Navigator headerMode="none" backBehavior="none">
+          {isWelcome ? (
+            <Stack.Screen name="Welcome" component={WelcomePage} />
+          ) : (
+            <Stack.Screen
+              name="App"
+              component={MainNaviagtor}
+              options={{
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+              }}
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
+
 // TODO createSwitchNavigator
-export default MainNaviagtor;
+export default AppNavigator;

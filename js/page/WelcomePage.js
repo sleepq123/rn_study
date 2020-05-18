@@ -6,6 +6,7 @@ class WelcomePage extends React.Component {
     super(props);
     this.state = {};
   }
+
   render() {
     return (
       <View style={styles.container}>
