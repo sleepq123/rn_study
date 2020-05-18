@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, BackHandler} from 'react-native';
+import {Alert, BackHandler, View} from 'react-native';
 
 import AppNavigator from './navigator/AppNavigator';
 
