@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet} from 'react-native';
+import NavigationUtil from '../navigator/NavigationUtil';
 
 class FavoritePage extends Component {
   constructor(props) {
@@ -10,6 +11,12 @@ class FavoritePage extends Component {
     return (
       <View style={styles.container}>
         <Text>FavoritePage</Text>
+        <Button
+          title="去详情"
+          onPress={() => {
+            NavigationUtil.goPage('Detail');
+          }}
+        />
       </View>
     );
   }

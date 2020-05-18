@@ -1,6 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
@@ -21,9 +24,19 @@ const InitNaviagtor = () => {
 const MainNaviagtor = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Home" component={HomePage} />
-        <Stack.Screen name="Detail" component={DetailPage} />
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomePage}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={DetailPage}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
