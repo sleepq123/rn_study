@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 const Tab = createMaterialTopTabNavigator();
@@ -45,12 +46,17 @@ class PopularPage extends Component {
 
   _createTopTabs = () => {
     const {Home, Home2, Home3} = TABS;
-    const tabs = [Home, Home2];
+    const tabs = [Home, Home2, Home3];
+    const {theme} = this.props;
     return (
       <Tab.Navigator
         backBehavior="none"
         tabBarOptions={{
           labelStyle: {fontSize: 12},
+          activeTintColor: theme.color,
+          indicatorStyle: {
+            backgroundColor: theme.color,
+          },
         }}>
         {tabs}
       </Tab.Navigator>
@@ -69,5 +75,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  red: {
+    color: 'red',
+  },
 });
-export default PopularPage;
+
+const mapStateToProps = (state /*, ownProps*/) => {
+  return {
+    theme: state.theme,
+  };
+};
+export default connect(mapStateToProps)(PopularPage);

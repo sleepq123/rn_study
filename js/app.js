@@ -1,6 +1,8 @@
 import React from 'react';
 import {Alert, BackHandler} from 'react-native';
+import {Provider} from 'react-redux';
 
+import store from './store';
 import AppNavigator from './navigator/AppNavigator';
 
 let backHandler;
@@ -30,7 +32,11 @@ class App extends React.Component {
     backHandler.remove();
   }
   render() {
-    return <AppNavigator />;
+    return (
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    );
   }
 }
 

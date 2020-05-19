@@ -72,5 +72,4 @@ class AppNavigator extends Component {
   }
 }
 
-// TODO createSwitchNavigator
 export default AppNavigator;

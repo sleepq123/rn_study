@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationUtil from '../navigator/NavigationUtil';
@@ -68,8 +68,17 @@ class HomePage extends Component {
 
   _bottomTab = () => {
     const {PopularPage, FavoritePage, TreadingPage, MinePage} = TABS;
-    const tabs = [PopularPage, FavoritePage, TreadingPage];
-    return <Tab.Navigator backBehavior="none">{tabs}</Tab.Navigator>;
+    const tabs = [PopularPage, FavoritePage, TreadingPage, MinePage];
+    const {theme} = this.props;
+    return (
+      <Tab.Navigator
+        backBehavior="none"
+        tabBarOptions={{
+          activeTintColor: theme.color,
+        }}>
+        {tabs}
+      </Tab.Navigator>
+    );
   };
   render() {
     const {navigation} = this.props;
@@ -79,13 +88,9 @@ class HomePage extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-});
-
-export default HomePage;
+const mapStateToProps = (state /*, ownProps*/) => {
+  return {
+    theme: state.theme,
+  };
+};
+export default connect(mapStateToProps)(HomePage);
