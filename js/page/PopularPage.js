@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Toast} from '@ant-design/react-native';
 import {connect} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
+import {appService} from '../api';
 
 const Tab = createMaterialTopTabNavigator();
 
 class PopularItem extends Component {
   state = {};
+  componentDidMount() {
+    appService.getTestData().then(res => {
+      console.log(res);
+    });
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -19,6 +27,7 @@ const TABS = {
   Home: (
     <Tab.Screen
       name="Feed"
+      key="Feed"
       component={PopularItem}
       options={{tabBarLabel: 'Home'}}
     />
@@ -26,6 +35,7 @@ const TABS = {
   Home2: (
     <Tab.Screen
       name="Feed2"
+      key="Feed2"
       component={PopularItem}
       options={{tabBarLabel: 'Home2'}}
     />
@@ -33,6 +43,7 @@ const TABS = {
   Home3: (
     <Tab.Screen
       name="Feed3"
+      key="Feed3"
       component={PopularItem}
       options={{tabBarLabel: 'Home3'}}
     />

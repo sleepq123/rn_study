@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
-import {Button as AntButton, Toast} from '@ant-design/react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {Button, Toast, Icon} from '@ant-design/react-native';
 import {connect} from 'react-redux';
 class MinePage extends Component {
   constructor(props) {
@@ -13,18 +13,18 @@ class MinePage extends Component {
       <View style={styles.container}>
         <Text>MinePage</Text>
         <Button
-          title="改变主题"
           onPress={() => {
             changeTheme('#5b85e3');
-          }}
-        />
-        <AntButton
+          }}>
+          改变主题
+        </Button>
+        <Button
           type="primary"
           onPress={() => {
             Toast.info('点击了antButton');
           }}>
           ant button
-        </AntButton>
+        </Button>
       </View>
     );
   }

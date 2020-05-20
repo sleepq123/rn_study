@@ -14,6 +14,7 @@ const TABS = {
   PopularPage: (
     <Tab.Screen
       name="PopularPage"
+      key="PopularPage"
       component={PopularPage}
       options={{
         tabBarLabel: '流行',
@@ -26,6 +27,7 @@ const TABS = {
   FavoritePage: (
     <Tab.Screen
       name="FavoritePage"
+      key="FavoritePage"
       component={FavoritePage}
       options={{
         tabBarLabel: '收藏',
@@ -38,6 +40,7 @@ const TABS = {
   TreadingPage: (
     <Tab.Screen
       name="TreadingPage"
+      key="TreadingPage"
       component={TreadingPage}
       options={{
         tabBarLabel: '趋势',
@@ -50,6 +53,7 @@ const TABS = {
   MinePage: (
     <Tab.Screen
       name="MinePage"
+      key="MinePage"
       component={MinePage}
       options={{
         tabBarLabel: '我的',
