@@ -4,6 +4,7 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/stack';
+import {Provider} from '@ant-design/react-native';
 
 import WelcomePage from '../page/WelcomePage';
 import HomePage from '../page/HomePage';
@@ -53,21 +54,24 @@ class AppNavigator extends Component {
   render() {
     const {isWelcome} = this.state;
     return (
-      <NavigationContainer>
-        <Stack.Navigator headerMode="none" backBehavior="none">
-          {isWelcome ? (
-            <Stack.Screen name="Welcome" component={WelcomePage} />
-          ) : (
-            <Stack.Screen
-              name="App"
-              component={MainNaviagtor}
-              options={{
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-              }}
-            />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider>
+        <NavigationContainer>
+          <Stack.Navigator headerMode="none" backBehavior="none">
+            {isWelcome ? (
+              <Stack.Screen name="Welcome" component={WelcomePage} />
+            ) : (
+              <Stack.Screen
+                name="App"
+                component={MainNaviagtor}
+                options={{
+                  cardStyleInterpolator:
+                    CardStyleInterpolators.forHorizontalIOS,
+                }}
+              />
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     );
   }
 }

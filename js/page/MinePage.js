@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
+import {Button as AntButton, Toast} from '@ant-design/react-native';
 import {connect} from 'react-redux';
 class MinePage extends Component {
   constructor(props) {
@@ -17,6 +18,13 @@ class MinePage extends Component {
             changeTheme('#5b85e3');
           }}
         />
+        <AntButton
+          type="primary"
+          onPress={() => {
+            Toast.info('点击了antButton');
+          }}>
+          ant button
+        </AntButton>
       </View>
     );
   }
