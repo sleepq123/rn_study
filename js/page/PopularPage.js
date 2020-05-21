@@ -1,34 +1,17 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Toast} from '@ant-design/react-native';
 import {connect} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
-import {appService} from '../api';
+import PopularTab from './PopularTab';
 
 const Tab = createMaterialTopTabNavigator();
 
-class PopularItem extends Component {
-  state = {};
-  componentDidMount() {
-    appService.getTestData().then(res => {
-      console.log(res);
-    });
-  }
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>PopularItem</Text>
-      </View>
-    );
-  }
-}
 const TABS = {
   Home: (
     <Tab.Screen
       name="Feed"
       key="Feed"
-      component={PopularItem}
+      component={PopularTab}
       options={{tabBarLabel: 'Home'}}
     />
   ),
@@ -36,7 +19,7 @@ const TABS = {
     <Tab.Screen
       name="Feed2"
       key="Feed2"
-      component={PopularItem}
+      component={PopularTab}
       options={{tabBarLabel: 'Home2'}}
     />
   ),
@@ -44,7 +27,7 @@ const TABS = {
     <Tab.Screen
       name="Feed3"
       key="Feed3"
-      component={PopularItem}
+      component={PopularTab}
       options={{tabBarLabel: 'Home3'}}
     />
   ),
@@ -78,18 +61,6 @@ class PopularPage extends Component {
     return <TopTabs />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  red: {
-    color: 'red',
-  },
-});
 
 const mapStateToProps = (state /*, ownProps*/) => {
   return {
