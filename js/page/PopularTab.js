@@ -1,49 +1,76 @@
 import React, {Component} from 'react';
-import {ScrollView, View, Text, StyleSheet} from 'react-native';
-import {Button} from '@ant-design/react-native';
+import {connect} from 'react-redux';
+import {FlatList} from 'react-native';
+import {Toast} from '@ant-design/react-native';
 
+import Type from '../reducer/type';
 import DataSource from '../expand/DataSource';
 import {appService} from '../api';
 
+import PopularItem from '../components/PopularItem';
 const dSource = new DataSource();
+let unsubscribe;
 class PopularTab extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: ''};
+    this.state = {data: '', timestamp: '', loading: false};
   }
+
+  componentDidMount() {
+    const {navigation, route, changeCurrentTab} = this.props;
+    this._fetchData();
+
+    navigation.addListener('tabPress', e => {
+      changeCurrentTab(route.name);
+    });
+  }
+
+  componentWillUnmount() {
+    if (typeof unsubscribe === 'function') {
+      unsubscribe();
+    }
+  }
+
   _fetchData = () => {
+    this.setState({
+      loading: true,
+    });
     dSource
-      .fetchData('fetch_Test', appService.getTestData('zhihuadmin'))
+      .fetchData('fetch_Test', appService.getTestData('c_89775001'))
       .then(res => {
-        this.setState({data: res.data});
+        Toast.success('已刷新');
+        this.setState({
+          data: res.data,
+          timestamp: res.timestamp,
+          loading: false,
+        });
       });
   };
 
   render() {
-    const {articles_count, title} = this.state.data;
+    const {loading} = this.state;
+    const {topics} = this.state.data;
     return (
-      <View style={styles.container}>
-        <Text>PopularItem</Text>
-        <Button onPress={this._fetchData}>获取数据</Button>
-        <ScrollView>
-          <Text>{title}</Text>
-          <Text>{articles_count}</Text>
-        </ScrollView>
-      </View>
+      <FlatList
+        data={topics}
+        renderItem={({item}) => (
+          <PopularItem timestamp={this.state.timestamp} options={item} />
+        )}
+        refreshing={loading}
+        onRefresh={() => {
+          this._fetchData();
+        }}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  red: {
-    color: 'red',
-  },
-});
-
-export default PopularTab;
+const mapDispatchToProps = (dispatch, owbnProps) => {
+  return {
+    changeCurrentTab: current => dispatch({type: Type.COLUMNE_CHANGE, current}),
+  };
+};
+export default connect(
+  null,
+  mapDispatchToProps,
+)(PopularTab);

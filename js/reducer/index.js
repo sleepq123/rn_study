@@ -1,2 +1,3 @@
 import theme from './theme';
-export default {theme};
+import specialColumn from './specialColumn';
+export default {theme, specialColumn};

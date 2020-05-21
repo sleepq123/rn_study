@@ -1,0 +1,4 @@
+export default {
+  THEME_CHANGE: 'THEME_CHANGE',
+  COLUMNE_CHANGE: 'COLUMNE_CHANGE',
+};
