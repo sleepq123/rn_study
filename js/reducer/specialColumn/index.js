@@ -2,18 +2,28 @@ import Type from '../type';
 
 const initState = {
   current: '',
-  likedColumns: [
-    {
-      colLabel: 'java',
-      colKey: 'java',
-      data: {},
+  likedColumns: {
+    1: {
+      seed: '1',
+      colLabel: '教育',
     },
-    {
-      colLabel: 'android',
-      colKey: 'android',
-      data: {},
+    2: {
+      seed: '2',
+      colLabel: '设计',
     },
-  ], // 用户收藏的专栏
+    3: {
+      seed: '3',
+      colLabel: '创业',
+    },
+    4: {
+      seed: '4',
+      colLabel: '投资',
+    },
+    7: {
+      seed: '7',
+      colLabel: '技术',
+    },
+  }, // 用户收藏的专栏
 };
 
 export default function specialColumn(state = initState, action) {

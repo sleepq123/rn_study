@@ -42,7 +42,7 @@ class AppNavigator extends Component {
   componentDidMount() {
     this._timer = setTimeout(() => {
       this.setState({isWelcome: false});
-    }, 2000);
+    }, 200);
   }
 
   componentWillUnmount() {

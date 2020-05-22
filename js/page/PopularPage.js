@@ -13,12 +13,13 @@ class PopularPage extends Component {
   }
 
   _renderTabs = () => {
-    const {specialColumn} = this.props;
-    return specialColumn.likedColumns.map(({colLabel, colKey}) => {
+    const {likedColumns} = this.props.specialColumn;
+    const Tabs = Object.keys(likedColumns).map(key => likedColumns[key]);
+    return Tabs.map(({colLabel, seed}) => {
       return (
         <Tab.Screen
-          name={colKey}
-          key={colKey}
+          name={seed}
+          key={seed}
           component={PopularTab}
           options={{tabBarLabel: colLabel}}
         />

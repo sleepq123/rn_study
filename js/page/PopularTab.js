@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import {Toast} from '@ant-design/react-native';
 
 import Type from '../reducer/type';
 import DataSource from '../expand/DataSource';
 import {columnService} from '../api';
+import {formatDate} from '../utils/tools';
 
 import PopularItem from '../components/PopularItem';
 const dSource = new DataSource();
@@ -13,7 +14,14 @@ let unsubscribe;
 class PopularTab extends Component {
   constructor(props) {
     super(props);
-    this.state = {data: '', timestamp: '', loading: false};
+    this.state = {
+      seed: '',
+      data: '',
+      limit: 6,
+      offset: 0,
+      loading: false,
+      endLoading: false,
+    };
   }
 
   componentDidMount() {
@@ -32,16 +40,26 @@ class PopularTab extends Component {
   }
 
   _fetchData = () => {
+    const {limit, offset} = this.state;
+    const {route} = this.props;
+    let params = {
+      limit,
+      offset,
+      seed: route.name,
+    };
     this.setState({
       loading: true,
     });
+
     dSource
-      .fetchData('fetch_Test', columnService.getTipjar('57764200'))
+      .fetchData(
+        `getColumnRecommendations_${route.name}`,
+        columnService.getColumnRecommendations(params),
+      )
       .then(res => {
-        Toast.success('已刷新');
+        Toast.success('已刷新,上次获取数据时间' + formatDate(res.timestamp));
         this.setState({
           data: res.data.data,
-          timestamp: res.timestamp,
           loading: false,
         });
       })
@@ -52,23 +70,56 @@ class PopularTab extends Component {
       });
   };
 
+  _fetchLoadMore = async () => {
+    console.log('more');
+
+    let {limit, offset, data} = this.state;
+    let {route} = this.props;
+    let params = {
+      limit,
+      offsett: offset++,
+      seed: route.name,
+    };
+
+    try {
+      this.setState({
+        endLoading: true,
+      });
+      let res = await columnService.getColumnRecommendations(params);
+      this.setState({
+        offset,
+        data: data.concat(res.data),
+        endLoading: false,
+      });
+    } catch (error) {
+      Toast.info(error.toString());
+      this.setState({
+        endLoading: false,
+      });
+    }
+  };
+
   render() {
-    const {loading} = this.state;
-    const {tipjarors} = this.state.data;
+    const {loading, data} = this.state;
     return (
       <FlatList
-        data={tipjarors}
-        renderItem={({item}) => (
-          <PopularItem timestamp={this.state.timestamp} options={item} />
-        )}
+        style={styles.popularTab}
+        data={data}
+        renderItem={({item}) => <PopularItem key={item.id} options={item} />}
         refreshing={loading}
-        onRefresh={() => {
-          this._fetchData();
-        }}
+        onRefresh={this._fetchData}
+        onEndReached={this._fetchLoadMore}
+        onEndReachedThreshold={0.2}
       />
     );
   }
 }
+
+const styles = StyleSheet.create({
+  popularTab: {
+    backgroundColor: '#f9f9f9',
+  },
+});
 
 const mapDispatchToProps = (dispatch, owbnProps) => {
   return {
