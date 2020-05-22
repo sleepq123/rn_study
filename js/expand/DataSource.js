@@ -48,7 +48,7 @@ class DataSource {
    * @param {Promise} apiPromise
    * @param {String} expireTime 默认1小时
    */
-  fetchData(key, apiPromise, expireTime = 36 * 1000) {
+  fetchData(key, apiPromise, expireTime = 3600 * 1000) {
     let result;
     return new Promise(async (resolve, reject) => {
       try {

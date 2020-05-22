@@ -8,14 +8,14 @@ class PopularItem extends Component {
     this.state = {};
   }
   render() {
-    const {id, name, type} = this.props.options;
+    const {id, name, avatar_url} = this.props.options;
     return (
       <TouchableOpacity style={{flex: 1}}>
         <Text>{this.props.timestamp}</Text>
         <View>
           <Text>{id}</Text>
           <Text>{name}</Text>
-          <Text>{type}</Text>
+          <Text>{avatar_url}</Text>
         </View>
       </TouchableOpacity>
     );

@@ -94,8 +94,12 @@ Axios.interceptors.response.use(
  * @param url 请求地址
  * @param params 参数对象
  */
-export function Get(url, params) {
+export function Get(url, params, baseURL) {
   return new Promise((resolve, reject) => {
+    if (baseURL) {
+      Axios.baseURL = baseURL;
+    }
+
     Axios.get(url, {params})
       .then(res => {
         resolve(res.data);

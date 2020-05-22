@@ -5,7 +5,7 @@ import {Toast} from '@ant-design/react-native';
 
 import Type from '../reducer/type';
 import DataSource from '../expand/DataSource';
-import {appService} from '../api';
+import {columnService} from '../api';
 
 import PopularItem from '../components/PopularItem';
 const dSource = new DataSource();
@@ -36,12 +36,17 @@ class PopularTab extends Component {
       loading: true,
     });
     dSource
-      .fetchData('fetch_Test', appService.getTestData('c_89775001'))
+      .fetchData('fetch_Test', columnService.getTipjar('57764200'))
       .then(res => {
         Toast.success('已刷新');
         this.setState({
-          data: res.data,
+          data: res.data.data,
           timestamp: res.timestamp,
+          loading: false,
+        });
+      })
+      .catch(() => {
+        this.setState({
           loading: false,
         });
       });
@@ -49,10 +54,10 @@ class PopularTab extends Component {
 
   render() {
     const {loading} = this.state;
-    const {topics} = this.state.data;
+    const {tipjarors} = this.state.data;
     return (
       <FlatList
-        data={topics}
+        data={tipjarors}
         renderItem={({item}) => (
           <PopularItem timestamp={this.state.timestamp} options={item} />
         )}
