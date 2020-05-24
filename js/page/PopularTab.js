@@ -16,7 +16,7 @@ class PopularTab extends Component {
     super(props);
     this.state = {
       seed: '',
-      data: '',
+      data: [],
       limit: 6,
       offset: 0,
       loading: false,
@@ -71,8 +71,6 @@ class PopularTab extends Component {
   };
 
   _fetchLoadMore = async () => {
-    console.log('more');
-
     let {limit, offset, data} = this.state;
     let {route} = this.props;
     let params = {
@@ -105,7 +103,13 @@ class PopularTab extends Component {
       <FlatList
         style={styles.popularTab}
         data={data}
-        renderItem={({item}) => <PopularItem key={item.id} options={item} />}
+        renderItem={({item, index}) => {
+          if (item) {
+            return <PopularItem key={item.id} options={item} />;
+          }
+        }}
+        keyExtractor={(item, index) => index}
+        initialNumToRender={4}
         refreshing={loading}
         onRefresh={this._fetchData}
         onEndReached={this._fetchLoadMore}
