@@ -4,10 +4,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationUtil from '../navigator/NavigationUtil';
 
-import PopularPage from './PopularPage';
-import FavoritePage from './FavoritePage';
-import TreadingPage from './TreadingPage';
-import MinePage from './MinePage';
+import PopularPage from './popular/PopularPage';
+import FavoritePage from './favorite/FavoritePage';
+import TreadingPage from './treading/TreadingPage';
+import MinePage from './mine/MinePage';
 
 const Tab = createBottomTabNavigator();
 const TABS = {

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button, StyleSheet} from 'react-native';
-import NavigationUtil from '../navigator/NavigationUtil';
+import NavigationUtil from '../../navigator/NavigationUtil';
 
 class FavoritePage extends Component {
   constructor(props) {

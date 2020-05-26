@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Button, Toast, Icon} from '@ant-design/react-native';
 import {connect} from 'react-redux';
-import {actions} from '../store/modules/theme';
+import {actions} from '../../store/modules/theme';
 class MinePage extends Component {
   constructor(props) {
     super(props);

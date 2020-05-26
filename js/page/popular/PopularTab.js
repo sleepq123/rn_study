@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import {FlatList, StyleSheet} from 'react-native';
 import {Toast} from '@ant-design/react-native';
 
-import DataSource from '../expand/DataSource';
-import {actions} from '../store/modules/column';
-import {columnService} from '../api';
-import {formatDate} from '../utils/tools';
+import DataSource from '../../expand/DataSource';
+import {actions} from '../../store/modules/column';
+import {columnService} from '../../api';
+import {formatDate} from '../../utils/tools';
 
-import PopularItem from '../components/PopularItem';
+import PopularItem from './PopularItem';
 const dSource = new DataSource();
 let unsubscribe;
 class PopularTab extends Component {

@@ -3,7 +3,7 @@ import {TouchableOpacity, Text, Image, StyleSheet} from 'react-native';
 import {Flex, Icon, Toast} from '@ant-design/react-native';
 import PropTypes from 'prop-types';
 
-import {formatDate} from '../utils/tools';
+import {formatDate} from '../../utils/tools';
 
 class PopularItem extends Component {
   constructor(props) {
