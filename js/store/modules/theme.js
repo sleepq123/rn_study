@@ -3,7 +3,7 @@ const type = {
 };
 
 const initState = {
-  color: '#2ad4db',
+  color: '#0084ff',
 };
 
 export default function theme(state = initState, action) {

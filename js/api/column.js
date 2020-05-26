@@ -1,7 +1,9 @@
 import {Get} from '../utils/http';
-import axios from 'axios';
-import {zhihuApi_v4} from '../config';
+import {zhuanlanURL} from '../config';
 
+const zhuanlanGet = (url, params) => {
+  return Get(zhuanlanURL + url, params);
+};
 /**
  * 获取推荐专栏
  * @param {*} params
@@ -10,7 +12,7 @@ export const getColumnRecommendations = (
   params = {limit: 6, offset: 6, seed: 7},
 ) => {
   const url = 'recommendations/columns';
-  return Get(url, params);
+  return zhuanlanGet(url, params);
 };
 
 /**
@@ -19,7 +21,7 @@ export const getColumnRecommendations = (
  */
 export const getColumnDetail = colName => {
   const url = `columns/${colName}`;
-  return Get(url);
+  return zhuanlanGet(url);
 };
 
 /**
@@ -29,7 +31,7 @@ export const getColumnDetail = colName => {
  */
 export const getArticleList = (colName, params = {limit: 10, offset: 0}) => {
   const url = `columns/${colName}/articles`;
-  return Get(url, params);
+  return zhuanlanGet(url, params);
 };
 
 /**
@@ -38,7 +40,7 @@ export const getArticleList = (colName, params = {limit: 10, offset: 0}) => {
  */
 export const getArticleDetail = articleId => {
   const url = `p/${articleId}`;
-  return Get(url);
+  return zhuanlanGet(url);
 };
 
 /**
@@ -64,14 +66,5 @@ export const getArticleRootComment = (
   params = {order: 'normal', status: 'open', limit: 20, offset: 0},
 ) => {
   const url = `articles/${articleId}/root_comments`;
-  return Get(url, params);
-};
-
-/**
- * 获取指定文章赞赏信息
- * @param {*} articleId
- */
-export const getTipjar = articleId => {
-  const url = `${zhihuApi_v4}articles/${articleId}/tipjar`;
-  return axios.get(url);
+  return zhuanlanGet(url, params);
 };

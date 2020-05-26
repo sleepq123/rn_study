@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Alert, TouchableOpacity, StyleSheet} from 'react-native';
-import {Popover} from '@ant-design/react-native';
+import {Popover, Icon} from '@ant-design/react-native';
 
 import NavigationBar from '../../components/NavigationBar';
 
@@ -12,7 +12,9 @@ const timeSpace = [
 class TreadingPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      timeSpace: 'today',
+    };
   }
 
   render() {
@@ -31,15 +33,21 @@ class TreadingPage extends Component {
           overlay={timeSpace.map(({label, value}) => {
             return (
               <Popover.Item value={value}>
-                <Text>{label}</Text>
+                <Text style={{fontSize: 18}}>{label}</Text>
+                <View style={{backgroundColor: '#d4d4d4', height: 1}} />
               </Popover.Item>
             );
           })}
           placement="bottom"
           onSelect={val => {
-            console.log('select' + val);
+            this.setState({
+              timeSpace: val,
+            });
           }}>
-          <Text style={styles.titleFont}>今天</Text>
+          <View style={styles.popSelect}>
+            <Text style={styles.titleFont}>今天</Text>
+            <Icon name="caret-down" style={{color: 'white'}} />
+          </View>
         </Popover>
       </View>
     );
@@ -49,9 +57,9 @@ class TreadingPage extends Component {
         <NavigationBar
           titleView={titleView}
           statusBar={{backgroundColor: '#2196F3'}}
-          leftButton={leftBtn}
+          // leftButton={leftBtn}
         />
-        <Text>TreadingPage</Text>
+        <Text>{this.state.timeSpace}</Text>
       </View>
     );
   }
@@ -63,7 +71,13 @@ const styles = StyleSheet.create({
   },
   titleFont: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 22,
+  },
+  popSelect: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

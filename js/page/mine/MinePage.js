@@ -15,7 +15,7 @@ class MinePage extends Component {
         <Text>MinePage</Text>
         <Button
           onPress={() => {
-            changeTheme('#5b85e3');
+            changeTheme('#009688');
           }}>
           改变主题
         </Button>

@@ -4,20 +4,20 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationUtil from '../navigator/NavigationUtil';
 
-import PopularPage from './popular/PopularPage';
+import HotPage from './hot/HotPage';
 import FavoritePage from './favorite/FavoritePage';
 import TreadingPage from './treading/TreadingPage';
 import MinePage from './mine/MinePage';
 
 const Tab = createBottomTabNavigator();
 const TABS = {
-  PopularPage: (
+  HotPage: (
     <Tab.Screen
-      name="PopularPage"
-      key="PopularPage"
-      component={PopularPage}
+      name="HotPage"
+      key="HotPage"
+      component={HotPage}
       options={{
-        tabBarLabel: '流行',
+        tabBarLabel: '热榜',
         tabBarIcon: ({focused, color, size}) => (
           <Icon name="fire" color={color} size={14} />
         ),
@@ -71,14 +71,15 @@ class HomePage extends Component {
   }
 
   _bottomTab = () => {
-    const {PopularPage, FavoritePage, TreadingPage, MinePage} = TABS;
-    const tabs = [PopularPage, FavoritePage, TreadingPage, MinePage];
+    const {HotPage, FavoritePage, TreadingPage, MinePage} = TABS;
+    const tabs = [HotPage, FavoritePage, TreadingPage, MinePage];
     const {theme} = this.props;
     return (
       <Tab.Navigator
         backBehavior="none"
         tabBarOptions={{
           activeTintColor: theme.color,
+          labelStyle: {fontSize: 14, fontWeight: 'bold'},
         }}>
         {tabs}
       </Tab.Navigator>

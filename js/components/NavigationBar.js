@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 });
 
 const StatusBarStyle = {
-  barStyle: PropTypes.oneOf(['light-content', 'default']),
+  barStyle: PropTypes.oneOf(['light-content', 'default', 'dark-content']),
   hidden: PropTypes.bool,
   backgroundColor: PropTypes.string,
 };

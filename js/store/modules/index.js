@@ -1,3 +1,3 @@
 import theme from './theme';
-import column from './column';
-export default {theme, column};
+import hot from './hot';
+export default {theme, hot};

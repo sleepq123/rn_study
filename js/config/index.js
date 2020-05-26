@@ -1,4 +1,4 @@
-const baseURL = 'http://zhuanlan.zhihu.com/api/'; // api请求的地址
-const zhihuApi_v4 = 'https://www.zhihu.com/api/v4/'; // 知乎apiV4地址
+const zhuanlanURL = 'http://zhuanlan.zhihu.com/api/'; // 专栏api请求的地址
+const zhihuURL = 'http://www.zhihu.com/api'; // 知乎api地址
 
-export {baseURL, zhihuApi_v4};
+export {zhuanlanURL, zhihuURL};
