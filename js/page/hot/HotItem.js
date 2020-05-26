@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {TouchableOpacity, Text, View, Image, StyleSheet} from 'react-native';
 import {Icon, Toast} from '@ant-design/react-native';
 import PropTypes from 'prop-types';
 
-class HotItem extends Component {
+class HotItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -45,7 +45,7 @@ class HotItem extends Component {
           </View>
         </View>
         {!!children[0].thumbnail && (
-          <View style={styles.itemImg}>
+          <View>
             <Image
               style={styles.exhabitionImg}
               resizeMode="cover"
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 15,
     backgroundColor: '#fff',
+    elevation: 2,
   },
   itemTitle: {
     display: 'flex',
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   exhabitionImg: {
+    marginLeft: 5,
     width: 170,
     height: 105,
     backgroundColor: 'blue',

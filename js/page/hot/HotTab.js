@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {FlatList, StyleSheet} from 'react-native';
-import {Toast} from '@ant-design/react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Toast, ActivityIndicator} from '@ant-design/react-native';
 
 import DataSource from '../../expand/DataSource';
 import {actions} from '../../store/modules/hot';
@@ -66,6 +66,9 @@ class HotTab extends Component {
   };
 
   _fetchLoadMore = async () => {
+    if (!this.state.canLoadmore) {
+      return;
+    }
     let {limit, offset, data} = this.state;
     const {name} = this.props.route;
     let params = {
@@ -76,6 +79,7 @@ class HotTab extends Component {
     try {
       this.setState({
         endLoading: true,
+        canLoadmore: false,
       });
       let res = await appService.getHostlist(name, params);
       this.setState({
@@ -91,6 +95,14 @@ class HotTab extends Component {
     }
   };
 
+  _renderFooter = () =>
+    this.state.endLoading && (
+      <View style={styles.footerStyle}>
+        <ActivityIndicator size="small" color="#888888" />
+        <Text>加载中...</Text>
+      </View>
+    );
+
   render() {
     const {loading, data} = this.state;
     return (
@@ -99,11 +111,18 @@ class HotTab extends Component {
         data={data}
         renderItem={({item}) => <HotItem key={item.id} options={item} />}
         keyExtractor={(item, index) => index}
+        extraData={this.state}
         initialNumToRender={4}
         refreshing={loading}
         onRefresh={this._fetchData}
         onEndReached={this._fetchLoadMore}
+        ListFooterComponent={this._renderFooter}
         onEndReachedThreshold={0.2}
+        onMomentumScrollBegin={() => {
+          this.setState({
+            canLoadmore: true,
+          });
+        }}
       />
     );
   }
@@ -112,6 +131,13 @@ class HotTab extends Component {
 const styles = StyleSheet.create({
   HotTab: {
     backgroundColor: '#f9f9f9',
+  },
+  footerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 44,
+    padding: 10,
   },
 });
 
