@@ -1,10 +1,8 @@
 import axios from 'axios';
 import Qs from 'qs';
-import {baseURL} from '../config';
 import {Toast} from '@ant-design/react-native';
 
 const Axios = axios.create({
-  baseURL,
   timeout: 5000,
   headers: {
     Accept: 'application/json',
@@ -94,12 +92,8 @@ Axios.interceptors.response.use(
  * @param url 请求地址
  * @param params 参数对象
  */
-export function Get(url, params, baseURL) {
+export function Get(url, params) {
   return new Promise((resolve, reject) => {
-    if (baseURL) {
-      Axios.baseURL = baseURL;
-    }
-
     Axios.get(url, {params})
       .then(res => {
         resolve(res.data);

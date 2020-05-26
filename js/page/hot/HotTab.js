@@ -3,15 +3,15 @@ import {connect} from 'react-redux';
 import {FlatList, StyleSheet} from 'react-native';
 import {Toast} from '@ant-design/react-native';
 
-import Type from '../reducer/type';
-import DataSource from '../expand/DataSource';
-import {columnService} from '../api';
-import {formatDate} from '../utils/tools';
+import DataSource from '../../expand/DataSource';
+import {actions} from '../../store/modules/hot';
+import {appService} from '../../api';
+import {formatDate} from '../../utils/tools';
 
-import PopularItem from '../components/PopularItem';
+import HotItem from './HotItem';
 const dSource = new DataSource();
 let unsubscribe;
-class PopularTab extends Component {
+class HotTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,25 +41,20 @@ class PopularTab extends Component {
 
   _fetchData = () => {
     const {limit, offset} = this.state;
-    const {route} = this.props;
-    let params = {
-      limit,
-      offset,
-      seed: route.name,
-    };
+    const {name} = this.props.route;
+
     this.setState({
       loading: true,
+      limit: 6,
+      offset: 0,
     });
 
     dSource
-      .fetchData(
-        `getColumnRecommendations_${route.name}`,
-        columnService.getColumnRecommendations(params),
-      )
+      .fetchData(`getHostlist_${name}`, appService.getHostlist(name, {limit}))
       .then(res => {
-        Toast.success('已刷新,上次获取数据时间' + formatDate(res.timestamp));
+        console.log('已刷新,上次获取数据时间' + formatDate(res.timestamp));
         this.setState({
-          data: res.data.data,
+          data: res.data.data.splice(offset, limit), // 接口不支持分页，伪分页处理
           loading: false,
         });
       })
@@ -72,21 +67,20 @@ class PopularTab extends Component {
 
   _fetchLoadMore = async () => {
     let {limit, offset, data} = this.state;
-    let {route} = this.props;
+    const {name} = this.props.route;
     let params = {
       limit,
       offsett: offset++,
-      seed: route.name,
     };
 
     try {
       this.setState({
         endLoading: true,
       });
-      let res = await columnService.getColumnRecommendations(params);
+      let res = await appService.getHostlist(name, params);
       this.setState({
         offset,
-        data: data.concat(res.data),
+        data: data.concat(res.data.splice(offset * limit, limit)), // 接口不支持分页，伪分页处理
         endLoading: false,
       });
     } catch (error) {
@@ -101,13 +95,9 @@ class PopularTab extends Component {
     const {loading, data} = this.state;
     return (
       <FlatList
-        style={styles.popularTab}
+        style={styles.HotTab}
         data={data}
-        renderItem={({item, index}) => {
-          if (item) {
-            return <PopularItem key={item.id} options={item} />;
-          }
-        }}
+        renderItem={({item}) => <HotItem key={item.id} options={item} />}
         keyExtractor={(item, index) => index}
         initialNumToRender={4}
         refreshing={loading}
@@ -120,17 +110,17 @@ class PopularTab extends Component {
 }
 
 const styles = StyleSheet.create({
-  popularTab: {
+  HotTab: {
     backgroundColor: '#f9f9f9',
   },
 });
 
 const mapDispatchToProps = (dispatch, owbnProps) => {
   return {
-    changeCurrentTab: current => dispatch({type: Type.COLUMNE_CHANGE, current}),
+    changeCurrentTab: current => dispatch(actions.changeCurrentTab(current)),
   };
 };
 export default connect(
   null,
   mapDispatchToProps,
-)(PopularTab);
+)(HotTab);

@@ -1,12 +1,14 @@
-import Type from '../type';
+const type = {
+  THEME_CHANGE: 'THEME_CHANGE',
+};
 
 const initState = {
-  color: '#2ad4db',
+  color: '#0084ff',
 };
 
 export default function theme(state = initState, action) {
   switch (action.type) {
-    case Type.THEME_CHANGE:
+    case type.THEME_CHANGE:
       return {
         ...state,
         color: action.color,
@@ -15,3 +17,7 @@ export default function theme(state = initState, action) {
       return state;
   }
 }
+
+export const actions = {
+  changeTheme: color => ({type: type.THEME_CHANGE, color}),
+};
