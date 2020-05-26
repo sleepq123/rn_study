@@ -13,7 +13,7 @@ class PopularPage extends Component {
   }
 
   _renderTabs = () => {
-    const {likedColumns} = this.props.specialColumn;
+    const {likedColumns} = this.props.column;
     const Tabs = Object.keys(likedColumns).map(key => likedColumns[key]);
     return Tabs.map(({colLabel, seed}) => {
       return (
@@ -49,7 +49,7 @@ class PopularPage extends Component {
 const mapStateToProps = (state /*, ownProps*/) => {
   return {
     theme: state.theme,
-    specialColumn: state.specialColumn,
+    column: state.column,
   };
 };
 export default connect(mapStateToProps)(PopularPage);

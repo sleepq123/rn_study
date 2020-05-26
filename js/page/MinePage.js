@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Button, Toast, Icon} from '@ant-design/react-native';
 import {connect} from 'react-redux';
+import {actions} from '../store/modules/theme';
 class MinePage extends Component {
   constructor(props) {
     super(props);
@@ -41,9 +42,10 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    changeTheme: color => dispatch({type: 'THEME_CHANGE', color}),
+    changeTheme: color => dispatch(actions.changeTheme(color)),
   };
 };
+
 export default connect(
   null,
   mapDispatchToProps,

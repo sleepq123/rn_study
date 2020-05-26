@@ -1,4 +1,6 @@
-import Type from '../type';
+const type = {
+  COLUMNE_CHANGE: 'COLUMNE_CHANGE',
+};
 
 const initState = {
   current: '',
@@ -26,9 +28,9 @@ const initState = {
   }, // 用户收藏的专栏
 };
 
-export default function specialColumn(state = initState, action) {
+export default function column(state = initState, action) {
   switch (action.type) {
-    case Type.COLUMNE_CHANGE:
+    case type.COLUMNE_CHANGE:
       return {
         ...state,
         current: action.current,
@@ -37,3 +39,7 @@ export default function specialColumn(state = initState, action) {
       return state;
   }
 }
+
+export const actions = {
+  changeCurrentTab: current => ({type: type.COLUMNE_CHANGE, current}),
+};

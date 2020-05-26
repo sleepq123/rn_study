@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import {FlatList, StyleSheet} from 'react-native';
 import {Toast} from '@ant-design/react-native';
 
-import Type from '../reducer/type';
 import DataSource from '../expand/DataSource';
+import {actions} from '../store/modules/column';
 import {columnService} from '../api';
 import {formatDate} from '../utils/tools';
 
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = (dispatch, owbnProps) => {
   return {
-    changeCurrentTab: current => dispatch({type: Type.COLUMNE_CHANGE, current}),
+    changeCurrentTab: current => dispatch(actions.changeCurrentTab(current)),
   };
 };
 export default connect(
