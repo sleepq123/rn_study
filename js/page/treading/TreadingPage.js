@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, Alert} from 'react-native';
+import {View, Text, Alert, TouchableOpacity, StyleSheet} from 'react-native';
+import {Popover} from '@ant-design/react-native';
 
 import NavigationBar from '../../components/NavigationBar';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
+const timeSpace = [
+  {label: '今天', value: 'today'},
+  {label: '近一周', value: 'week'},
+  {label: '近一月', value: 'month'},
+];
 class TreadingPage extends Component {
   constructor(props) {
     super(props);
@@ -11,23 +16,55 @@ class TreadingPage extends Component {
   }
 
   render() {
+    let leftBtn = (
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert('返回');
+        }}>
+        <Text style={styles.titleFont}>返回</Text>
+      </TouchableOpacity>
+    );
+    let titleView = (
+      <View style={styles.titleStyle}>
+        <Text style={styles.titleFont}>趋势 </Text>
+        <Popover
+          overlay={timeSpace.map(({label, value}) => {
+            return (
+              <Popover.Item value={value}>
+                <Text>{label}</Text>
+              </Popover.Item>
+            );
+          })}
+          placement="bottom"
+          onSelect={val => {
+            console.log('select' + val);
+          }}>
+          <Text style={styles.titleFont}>今天</Text>
+        </Popover>
+      </View>
+    );
+
     return (
       <View>
         <NavigationBar
-          title="趋势"
-          leftButton={
-            <TouchableOpacity
-              onPress={() => {
-                Alert.alert('返回');
-              }}>
-              <Text>返回</Text>
-            </TouchableOpacity>
-          }
+          titleView={titleView}
+          statusBar={{backgroundColor: '#2196F3'}}
+          leftButton={leftBtn}
         />
         <Text>TreadingPage</Text>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  titleStyle: {
+    flexDirection: 'row',
+  },
+  titleFont: {
+    color: 'white',
+    fontSize: 18,
+  },
+});
 
 export default TreadingPage;
