@@ -17,6 +17,26 @@ const initState = {
       value: 'digital',
       label: '数码',
     },
+    sport: {
+      value: 'sport',
+      label: '体育',
+    },
+    fashion: {
+      value: 'fashion',
+      label: '时尚',
+    },
+    film: {
+      value: 'film',
+      label: '电影',
+    },
+    focus: {
+      value: 'focus',
+      label: '焦点',
+    },
+    depth: {
+      value: 'depth',
+      label: '深度',
+    },
   },
 };
 
