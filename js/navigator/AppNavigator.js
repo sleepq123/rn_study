@@ -25,6 +25,7 @@ const MainNaviagtor = () => {
           name="Detail"
           component={DetailPage}
           options={{
+            headerShown: false,
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         />

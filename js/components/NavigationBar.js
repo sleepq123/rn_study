@@ -19,11 +19,26 @@ class NavigationBar extends Component {
     this.state = {};
   }
   render() {
-    const {navStyle, statusBar, hidden, leftButton, rightButton} = this.props;
+    const {
+      title,
+      navStyle,
+      statusBar,
+      hidden,
+      leftButton,
+      rightButton,
+    } = this.props;
+    const isLongTitle = (title && title.length) > 10 ? true : false; // 判断title是否需要长文本截取处理
     let titleView = this.props.titleView ? (
       this.props.titleView
     ) : (
-      <Text style={styles.title}>{this.props.title}</Text>
+      <Text
+        style={StyleSheet.flatten([
+          styles.title,
+          isLongTitle && styles.longTitle,
+        ])}
+        numberOfLines={1}>
+        {title}
+      </Text>
     );
 
     return (
@@ -72,8 +87,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
   },
+  longTitle: {
+    paddingRight: 50,
+  },
   btnStyle: {
-    padding: 20,
+    padding: 10,
   },
 });
 

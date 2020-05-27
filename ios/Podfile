@@ -79,6 +79,8 @@ target 'rn_newborn' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'rn_newbornTests' do
     inherit! :complete
     # Pods for testing

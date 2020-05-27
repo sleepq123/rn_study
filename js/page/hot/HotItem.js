@@ -3,6 +3,8 @@ import {TouchableOpacity, Text, View, Image, StyleSheet} from 'react-native';
 import {Icon, Toast} from '@ant-design/react-native';
 import PropTypes from 'prop-types';
 
+import NavigationUtil from '../../navigator/NavigationUtil';
+
 class HotItem extends PureComponent {
   constructor(props) {
     super(props);
@@ -17,10 +19,22 @@ class HotItem extends PureComponent {
     alert(msg);
   };
 
+  gotoDetailPage = ({id, title}) => {
+    NavigationUtil.goPage('Detail', {
+      url: `https://www.zhihu.com/question/${id}`,
+      title,
+    });
+  };
+
   render() {
     const {target, children, detail_text} = this.props.options;
+
     return (
-      <TouchableOpacity style={styles.itemContainer}>
+      <TouchableOpacity
+        style={styles.itemContainer}
+        onPress={() => {
+          this.gotoDetailPage(target);
+        }}>
         <View style={styles.itemTitle}>
           <Text style={styles.titleFont} numberOfLines={2}>
             {target.title}
@@ -86,7 +100,6 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     width: 170,
     height: 105,
-    backgroundColor: 'blue',
   },
 });
 

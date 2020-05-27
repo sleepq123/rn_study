@@ -21,6 +21,7 @@ class HotTab extends Component {
       offset: 0,
       loading: false,
       endLoading: false,
+      isNoMore: false,
     };
   }
 
@@ -66,7 +67,7 @@ class HotTab extends Component {
   };
 
   _fetchLoadMore = async () => {
-    if (!this.state.canLoadmore) {
+    if (!this.state.canLoadmore || this.state.isNoMore) {
       return;
     }
     let {limit, offset, data} = this.state;
@@ -82,6 +83,13 @@ class HotTab extends Component {
         canLoadmore: false,
       });
       let res = await appService.getHostlist(name, params);
+      if (JSON.stringify(res.data.splice(offset * limit, limit)) === '[]') {
+        this.setState({
+          isNoMore: true,
+        });
+        Toast.info('没有更多数据了!');
+        return;
+      }
       this.setState({
         offset,
         data: data.concat(res.data.splice(offset * limit, limit)), // 接口不支持分页，伪分页处理
@@ -95,13 +103,17 @@ class HotTab extends Component {
     }
   };
 
-  _renderFooter = () =>
-    this.state.endLoading && (
-      <View style={styles.footerStyle}>
-        <ActivityIndicator size="small" color="#888888" />
-        <Text>加载中...</Text>
-      </View>
+  _renderFooter = () => {
+    const {endLoading, isNoMore} = this.state;
+    return (
+      (endLoading || isNoMore) && (
+        <View style={styles.footerStyle}>
+          {endLoading && <ActivityIndicator size="small" color="#888888" />}
+          <Text>{isNoMore ? '我也是有底线的！' : '加载中...'}</Text>
+        </View>
+      )
     );
+  };
 
   render() {
     const {loading, data} = this.state;
