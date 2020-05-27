@@ -62,6 +62,7 @@ class HotPage extends Component {
             scrollEnabled: true,
             labelStyle: {fontSize: 16, fontWeight: 'bold'},
             tabStyle: {width: 60, height: 50},
+            style: {marginRight: 50},
             activeTintColor: theme.color,
             indicatorStyle: {
               backgroundColor: theme.color,
