@@ -77,30 +77,23 @@ class HotTab extends Component {
       offsett: offset++,
     };
 
-    try {
+    this.setState({
+      endLoading: true,
+      canLoadmore: false,
+    });
+    let res = await appService.getHostlist(name, params);
+    if (JSON.stringify(res.data.splice(offset * limit, limit)) === '[]') {
       this.setState({
-        endLoading: true,
-        canLoadmore: false,
+        isNoMore: true,
       });
-      let res = await appService.getHostlist(name, params);
-      if (JSON.stringify(res.data.splice(offset * limit, limit)) === '[]') {
-        this.setState({
-          isNoMore: true,
-        });
-        Toast.info('没有更多数据了!');
-        return;
-      }
-      this.setState({
-        offset,
-        data: data.concat(res.data.splice(offset * limit, limit)), // 接口不支持分页，伪分页处理
-        endLoading: false,
-      });
-    } catch (error) {
-      Toast.info(error.toString());
-      this.setState({
-        endLoading: false,
-      });
+      Toast.info('没有更多数据了!');
+      return;
     }
+    this.setState({
+      offset,
+      data: data.concat(res.data.splice(offset * limit, limit)), // 接口不支持分页，伪分页处理
+      endLoading: false,
+    });
   };
 
   _renderFooter = () => {
@@ -122,14 +115,14 @@ class HotTab extends Component {
         style={styles.HotTab}
         data={data}
         renderItem={({item}) => <HotItem key={item.id} options={item} />}
-        keyExtractor={(item, index) => index}
+        keyExtractor={item => item.id}
         extraData={this.state}
         initialNumToRender={4}
         refreshing={loading}
         onRefresh={this._fetchData}
         onEndReached={this._fetchLoadMore}
         ListFooterComponent={this._renderFooter}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.01}
         onMomentumScrollBegin={() => {
           this.setState({
             canLoadmore: true,
