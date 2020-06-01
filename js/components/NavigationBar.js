@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import UiViewUtils from '../utils/UiViewUtils';
+
 const NAV_BAR_HEIGHT_ANDROID = 50; //Android的NavigationBar高度
 const NAV_BAR_HEIGHT_IOS = 44; //iOs的NavigationBar高度
 const STATUS_BAR_HEIGHT = 20; //状态栏高度
@@ -48,18 +50,14 @@ class NavigationBar extends Component {
         )}
         {!hidden && (
           <View style={[styles.navBarContainer, navStyle]}>
-            {leftButton && this._getButtonElement(leftButton)}
+            {leftButton && UiViewUtils.renderEleStyle(leftButton)}
             <View style={styles.titleContainer}>{titleView}</View>
-            {rightButton && this._getButtonElement(rightButton)}
+            {rightButton && UiViewUtils.renderEleStyle(rightButton)}
           </View>
         )}
       </View>
     );
   }
-
-  _getButtonElement = ele => {
-    return <View style={styles.btnStyle}>{ele}</View>;
-  };
 }
 
 const styles = StyleSheet.create({

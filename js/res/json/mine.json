@@ -1,0 +1,53 @@
+[
+  {
+    "label": "设置",
+    "data": [
+      {
+        "key": "currency",
+        "icon": "unlock",
+        "title": "通用"
+      },
+      {
+        "key": "theme",
+        "icon": "behance",
+        "title": "改变主题"
+      }
+    ]
+  },
+  {
+    "label": "关于",
+    "data": [
+      {
+        "key": "aboutProject",
+        "icon": "delivered-procedure",
+        "title": "关于项目"
+      },
+      {
+        "key": "aboutMe",
+        "icon": "apartment",
+        "title": "关于我"
+      },
+      {
+        "key": "callMe",
+        "icon": "wechat",
+        "title": "联系我",
+        "isOpen": false,
+        "children": [
+          {
+            "key": "qq",
+            "title": "qq:7088941147"
+          },
+          {
+            "key": "wechat",
+            "title": "微信:sleepq123"
+          }
+        ]
+      },
+      {
+        "key": "github",
+        "icon": "github",
+        "title": "github"
+      }
+    ]
+  }
+]

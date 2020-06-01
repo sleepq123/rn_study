@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Icon} from '@ant-design/react-native';
 
 export default class UiViewUtils {
@@ -14,11 +14,16 @@ export default class UiViewUtils {
       </TouchableOpacity>
     );
   }
+
+  static renderEleStyle(ele, style) {
+    return <View style={style}>{ele}</View>;
+  }
 }
 
 const styles = StyleSheet.create({
   leftBtn: {
     color: 'white',
+    marginLeft: 10,
   },
   leftIcon: {
     color: 'white',
