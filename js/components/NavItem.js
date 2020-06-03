@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 0.5,
-    backgroundColor: 'grey',
     elevation: 0.5,
   },
 });

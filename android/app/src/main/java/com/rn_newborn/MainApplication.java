@@ -10,6 +10,10 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.rn_newborn.invokenative.DplusReactPackage;
+import com.rn_newborn.invokenative.RNUMConfigure;
+import com.umeng.commonsdk.UMConfigure;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -27,7 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+           packages.add(new DplusReactPackage());
           return packages;
         }
 
@@ -47,6 +51,8 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+      RNUMConfigure.init(this, "5ed5f72fdbc2ec0818c7548f", "test-app", UMConfigure.DEVICE_TYPE_PHONE,
+              null);
   }
 
   /**

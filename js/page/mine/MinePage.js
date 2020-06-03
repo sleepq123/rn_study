@@ -7,6 +7,7 @@ import NavigationUtil from '../../navigator/NavigationUtil';
 import NavItem from '../../components/NavItem';
 import {Toast} from '@ant-design/react-native';
 
+import AnalyticsUtil from '../../res/nativeModule/AnalyticsUtil';
 let mineJson = require('../../res/json/mine.json');
 
 class MinePage extends Component {
@@ -18,8 +19,12 @@ class MinePage extends Component {
   handleClick = key => {
     switch (key) {
       case 'theme':
+        AnalyticsUtil.onPageStart('mine');
+        console.log(AnalyticsUtil.onPageStart);
+
         this.props.changeTheme('#8a28db');
         Toast.success('主题切换成功');
+        AnalyticsUtil.onPageEnd('mine');
         break;
       case 'github':
         NavigationUtil.goPage('Detail', {
