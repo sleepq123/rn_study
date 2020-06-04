@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationUtil from '../navigator/NavigationUtil';
 
 import HotPage from './hot/HotPage';
+import SearchPage from './search/SearchPage';
 import FavoritePage from './favorite/FavoritePage';
 import TreadingPage from './treading/TreadingPage';
 import MinePage from './mine/MinePage';
@@ -20,6 +21,19 @@ const TABS = {
         tabBarLabel: '热榜',
         tabBarIcon: ({focused, color, size}) => (
           <Icon name="fire" color={color} size={14} />
+        ),
+      }}
+    />
+  ),
+  SearchPage: (
+    <Tab.Screen
+      name="SearchPage"
+      key="SearchPage"
+      component={SearchPage}
+      options={{
+        tabBarLabel: '搜索',
+        tabBarIcon: ({focused, color, size}) => (
+          <Icon name="search" color={color} size={14} />
         ),
       }}
     />
@@ -71,8 +85,8 @@ class HomePage extends Component {
   }
 
   _bottomTab = () => {
-    const {HotPage, FavoritePage, TreadingPage, MinePage} = TABS;
-    const tabs = [HotPage, FavoritePage, TreadingPage, MinePage];
+    const {HotPage, SearchPage, FavoritePage, TreadingPage, MinePage} = TABS;
+    const tabs = [HotPage, FavoritePage, SearchPage, TreadingPage, MinePage];
     const {theme} = this.props;
     return (
       <Tab.Navigator
