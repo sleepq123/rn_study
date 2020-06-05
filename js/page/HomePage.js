@@ -7,7 +7,6 @@ import NavigationUtil from '../navigator/NavigationUtil';
 import HotPage from './hot/HotPage';
 import SearchPage from './search/SearchPage';
 import FavoritePage from './favorite/FavoritePage';
-import TreadingPage from './treading/TreadingPage';
 import MinePage from './mine/MinePage';
 
 const Tab = createBottomTabNavigator();
@@ -51,19 +50,6 @@ const TABS = {
       }}
     />
   ),
-  TreadingPage: (
-    <Tab.Screen
-      name="TreadingPage"
-      key="TreadingPage"
-      component={TreadingPage}
-      options={{
-        tabBarLabel: '趋势',
-        tabBarIcon: ({focused, color, size}) => (
-          <Icon name="chart-line" color={color} size={14} />
-        ),
-      }}
-    />
-  ),
   MinePage: (
     <Tab.Screen
       name="MinePage"
@@ -85,8 +71,8 @@ class HomePage extends Component {
   }
 
   _bottomTab = () => {
-    const {HotPage, SearchPage, FavoritePage, TreadingPage, MinePage} = TABS;
-    const tabs = [HotPage, FavoritePage, SearchPage, TreadingPage, MinePage];
+    const {HotPage, SearchPage, FavoritePage, MinePage} = TABS;
+    const tabs = [HotPage, FavoritePage, SearchPage, MinePage];
     const {theme} = this.props;
     return (
       <Tab.Navigator
