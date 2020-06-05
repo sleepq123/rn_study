@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Alert, TouchableOpacity, StyleSheet} from 'react-native';
-import {Popover, Icon} from '@ant-design/react-native';
+import {Icon} from '@ant-design/react-native';
 
 import NavigationBar from '../../components/NavigationBar';
 
@@ -29,26 +29,6 @@ class TreadingPage extends Component {
     let titleView = (
       <View style={styles.titleStyle}>
         <Text style={styles.titleFont}>趋势 </Text>
-        <Popover
-          overlay={timeSpace.map(({label, value}) => {
-            return (
-              <Popover.Item value={value}>
-                <Text style={{fontSize: 18}}>{label}</Text>
-                <View style={{backgroundColor: '#d4d4d4', height: 1}} />
-              </Popover.Item>
-            );
-          })}
-          placement="bottom"
-          onSelect={val => {
-            this.setState({
-              timeSpace: val,
-            });
-          }}>
-          <View style={styles.popSelect}>
-            <Text style={styles.titleFont}>今天</Text>
-            <Icon name="caret-down" style={{color: 'white'}} />
-          </View>
-        </Popover>
       </View>
     );
 

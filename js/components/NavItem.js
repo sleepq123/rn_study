@@ -53,7 +53,7 @@ class NavItem extends Component {
             )}
           </View>
           {!children ? (
-            <Icon name="arrow-right" />
+            <Icon name="right" />
           ) : this.state.isOpen ? (
             <Icon name="caret-up" />
           ) : (

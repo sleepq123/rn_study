@@ -83,6 +83,8 @@ target 'rn_newborn' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   target 'rn_newbornTests' do
     inherit! :complete
     # Pods for testing

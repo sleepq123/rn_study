@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">rn_newborn</string>
     <color name="primary_dark">#656460</color>
+    <string moduleConfig="true" name="CodePushDeploymentKey">raCUQWxcF-_bgcDkPrkDWlje707GYmLWTbj4r</string>
 </resources>
