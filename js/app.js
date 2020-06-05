@@ -5,6 +5,8 @@ import {Provider} from 'react-redux';
 import store from './store';
 import AppNavigator from './navigator/AppNavigator';
 
+import SplashScreen from 'react-native-splash-screen';
+
 let backHandler;
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    SplashScreen.hide();
+
     const backAction = () => {
       Alert.alert('提示', '你确定要退出app吗?', [
         {
