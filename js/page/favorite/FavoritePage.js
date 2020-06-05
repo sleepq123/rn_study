@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import CodePush from 'react-native-code-push';
+import {Button} from '@ant-design/react-native';
 
 class FavoritePage extends Component {
   constructor() {
@@ -132,6 +133,14 @@ class FavoritePage extends Component {
           <Text style={styles.syncButton}>Press for Update Metadata</Text>
         </TouchableOpacity>
         <Text style={styles.messages}>{this.state.syncMessage || ''}</Text>
+        <Button
+          onPress={() => {
+            CodePush.getCurrentPackage().then(update => {
+              alert(update.toString());
+            });
+          }}>
+          查看
+        </Button>
       </View>
     );
   }
@@ -143,11 +152,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     paddingTop: 50,
-  },
-  image: {
-    margin: 30,
-    width: Dimensions.get('window').width - 100,
-    height: (365 * (Dimensions.get('window').width - 100)) / 651,
   },
   messages: {
     marginTop: 30,
@@ -175,6 +179,6 @@ const styles = StyleSheet.create({
  */
 let codePushOptions = {checkFrequency: CodePush.CheckFrequency.MANUAL};
 
-const App = CodePush(codePushOptions)(FavoritePage);
+FavoritePage = CodePush(codePushOptions)(FavoritePage);
 
-export default App;
+export default FavoritePage;
