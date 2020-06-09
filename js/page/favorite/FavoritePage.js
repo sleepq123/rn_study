@@ -1,184 +1,106 @@
 import React, {Component} from 'react';
-import {
-  AppRegistry,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+import CodePush from 'react-native-code-push'; // 引入code-push
 
-import CodePush from 'react-native-code-push';
-import {Button} from '@ant-design/react-native';
+let codePushOptions = {
+  //设置检查更新的频率
+  //ON_APP_RESUME APP恢复到前台的时候
+  //ON_APP_START APP开启的时候
+  //MANUAL 手动检查
+  checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+};
+
+const instructions = Platform.select({
+  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
+  android:
+    'Double tap R on your keyboard to reload,\n' +
+    'Shake or press menu button for dev menu',
+});
 
 class FavoritePage extends Component {
-  constructor() {
-    super();
-    this.state = {restartAllowed: true};
-  }
-
-  codePushStatusDidChange(syncStatus) {
-    switch (syncStatus) {
-      case CodePush.SyncStatus.CHECKING_FOR_UPDATE:
-        this.setState({syncMessage: 'Checking for update.'});
-        break;
-      case CodePush.SyncStatus.DOWNLOADING_PACKAGE:
-        this.setState({syncMessage: 'Downloading package.'});
-        break;
-      case CodePush.SyncStatus.AWAITING_USER_ACTION:
-        this.setState({syncMessage: 'Awaiting user action.'});
-        break;
-      case CodePush.SyncStatus.INSTALLING_UPDATE:
-        this.setState({syncMessage: 'Installing update.'});
-        break;
-      case CodePush.SyncStatus.UP_TO_DATE:
-        this.setState({syncMessage: 'App up to date.', progress: false});
-        break;
-      case CodePush.SyncStatus.UPDATE_IGNORED:
-        this.setState({
-          syncMessage: 'Update cancelled by user.',
-          progress: false,
-        });
-        break;
-      case CodePush.SyncStatus.UPDATE_INSTALLED:
-        this.setState({
-          syncMessage: 'Update installed and will be applied on restart.',
-          progress: false,
-        });
-        break;
-      case CodePush.SyncStatus.UNKNOWN_ERROR:
-        this.setState({
-          syncMessage: 'An unknown error occurred.',
-          progress: false,
-        });
-        break;
-    }
-  }
-
-  codePushDownloadDidProgress(progress) {
-    this.setState({progress});
-  }
-
-  toggleAllowRestart() {
-    this.state.restartAllowed
-      ? CodePush.disallowRestart()
-      : CodePush.allowRestart();
-
-    this.setState({restartAllowed: !this.state.restartAllowed});
-  }
-
-  getUpdateMetadata() {
-    CodePush.getUpdateMetadata(CodePush.UpdateState.RUNNING).then(
-      metadata => {
-        this.setState({
-          syncMessage: metadata
-            ? JSON.stringify(metadata)
-            : 'Running binary version',
-          progress: false,
-        });
-      },
-      error => {
-        this.setState({syncMessage: 'Error: ' + error, progress: false});
-      },
-    );
-  }
-
-  /** Update is downloaded silently, and applied on restart (recommended) */
-  sync() {
-    CodePush.sync(
-      {},
-      this.codePushStatusDidChange.bind(this),
-      this.codePushDownloadDidProgress.bind(this),
-    );
-  }
-
-  /** Update pops a confirmation dialog, and then immediately reboots the app */
+  //如果有更新的提示
   syncImmediate() {
-    CodePush.sync(
-      {installMode: CodePush.InstallMode.IMMEDIATE, updateDialog: true},
-      this.codePushStatusDidChange.bind(this),
-      this.codePushDownloadDidProgress.bind(this),
-    );
+    CodePush.sync({
+      //安装模式
+      //ON_NEXT_RESUME 下次恢复到前台时
+      //ON_NEXT_RESTART 下一次重启时
+      //IMMEDIATE 马上更新
+      mandatoryInstallMode: CodePush.InstallMode.IMMEDIATE,
+      deploymentKey: 'iOS平台Key，部署环境(Production/Staging)',
+      //对话框
+      updateDialog: {
+        //是否显示更新描述
+        appendReleaseDescription: true,
+        //更新描述的前缀。 默认为"Description"
+        descriptionPrefix: '更新内容：',
+        //强制更新按钮文字，默认为continue
+        mandatoryContinueButtonLabel: '立即更新',
+        //强制更新时的信息. 默认为"An update is available that must be installed."
+        mandatoryUpdateMessage: '必须更新后才能使用',
+        //非强制更新时，按钮文字,默认为"ignore"
+        optionalIgnoreButtonLabel: '稍后',
+        //非强制更新时，确认按钮文字. 默认为"Install"
+        optionalInstallButtonLabel: '后台更新',
+        //非强制更新时，检查到更新的消息文本
+        optionalUpdateMessage: '有新版本了，是否更新？',
+        //Alert窗口的标题
+        title: '更新提示',
+      },
+    });
+  }
+  componentWillMount() {
+    CodePush.disallowRestart(); //禁止重启
+    this.syncImmediate(); //开始检查更新
+  }
+  componentDidMount() {
+    CodePush.allowRestart(); //在加载完了，允许重启
   }
 
+  /*或者采用这一段代码
+componentDidMount() {
+    CodePush.sync({
+      updateDialog: {
+        appendReleaseDescription: true,
+        descriptionPrefix:'\n\n更新内容：\n',
+        title:'更新',
+        mandatoryUpdateMessage:'',
+        mandatoryContinueButtonLabel:'更新',
+      },
+      mandatoryInstallMode:CodePush.InstallMode.IMMEDIATE,
+      deploymentKey: 'iOS平台Key，部署环境(Production/Staging)',
+    });
+  }
+*/
   render() {
-    let progressView;
-
-    if (this.state.progress) {
-      progressView = (
-        <Text style={styles.messages}>
-          {this.state.progress.receivedBytes} of{' '}
-          {this.state.progress.totalBytes} bytes received
-        </Text>
-      );
-    }
-
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to CodePush!</Text>
-        <TouchableOpacity onPress={this.sync.bind(this)}>
-          <Text style={styles.syncButton}>Press for background sync</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.syncImmediate.bind(this)}>
-          <Text style={styles.syncButton}>Press for dialog-driven sync</Text>
-        </TouchableOpacity>
-        {progressView}
-        <TouchableOpacity onPress={this.toggleAllowRestart.bind(this)}>
-          <Text style={styles.restartToggleButton}>
-            Restart {this.state.restartAllowed ? 'allowed' : 'forbidden'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.getUpdateMetadata.bind(this)}>
-          <Text style={styles.syncButton}>Press for Update Metadata</Text>
-        </TouchableOpacity>
-        <Text style={styles.messages}>{this.state.syncMessage || ''}</Text>
-        <Button
-          onPress={() => {
-            CodePush.getCurrentPackage().then(update => {
-              alert(update.toString());
-            });
-          }}>
-          查看
-        </Button>
+        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.instructions}>{instructions}</Text>
+
+        <Text style={styles.instructions}>这是更新的版本</Text>
       </View>
     );
   }
 }
 
+export default CodePush(codePushOptions)(FavoritePage);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-    paddingTop: 50,
-  },
-  messages: {
-    marginTop: 30,
-    textAlign: 'center',
-  },
-  restartToggleButton: {
-    color: 'blue',
-    fontSize: 17,
-  },
-  syncButton: {
-    color: 'green',
-    fontSize: 17,
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 20,
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
   },
 });
-
-/**
- * Configured with a MANUAL check frequency for easy testing. For production apps, it is recommended to configure a
- * different check frequency, such as ON_APP_START, for a 'hands-off' approach where CodePush.sync() does not
- * need to be explicitly called. All options of CodePush.sync() are also available in this decorator.
- */
-let codePushOptions = {checkFrequency: CodePush.CheckFrequency.MANUAL};
-
-FavoritePage = CodePush(codePushOptions)(FavoritePage);
-
-export default FavoritePage;
