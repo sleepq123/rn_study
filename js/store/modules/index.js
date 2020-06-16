@@ -1,3 +1,4 @@
 import theme from './theme';
 import hot from './hot';
-export default {theme, hot};
+import app from './app';
+export default {theme, hot, app};
