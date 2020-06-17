@@ -4,6 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import NavigationUtil from '../navigator/NavigationUtil';
 
+import UpdateModal from '../components/UpdateModal';
+
 import HotPage from './hot/HotPage';
 import SearchPage from './search/SearchPage';
 import FavoritePage from './favorite/FavoritePage';
@@ -75,14 +77,17 @@ class HomePage extends Component {
     const tabs = [HotPage, FavoritePage, SearchPage, MinePage];
     const {theme} = this.props;
     return (
-      <Tab.Navigator
-        backBehavior="none"
-        tabBarOptions={{
-          activeTintColor: theme.color,
-          labelStyle: {fontSize: 14, fontWeight: 'bold'},
-        }}>
-        {tabs}
-      </Tab.Navigator>
+      <>
+        <Tab.Navigator
+          backBehavior="none"
+          tabBarOptions={{
+            activeTintColor: theme.color,
+            labelStyle: {fontSize: 14, fontWeight: 'bold'},
+          }}>
+          {tabs}
+        </Tab.Navigator>
+        <UpdateModal />
+      </>
     );
   };
   render() {
