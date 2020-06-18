@@ -6,31 +6,18 @@ import {
 } from '@react-navigation/stack';
 import {Provider} from '@ant-design/react-native';
 
+import routes from '../route';
 import WelcomePage from '../page/WelcomePage';
-import HomePage from '../page/HomePage';
-import DetailPage from '../page/DetailPage';
 
 const Stack = createStackNavigator();
 
 const MainNaviagtor = () => {
   return (
-    <>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomePage}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={DetailPage}
-          options={{
-            headerShown: false,
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-      </Stack.Navigator>
-    </>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      {routes.map(item => {
+        return <Stack.Screen {...item} />;
+      })}
+    </Stack.Navigator>
   );
 };
 

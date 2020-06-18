@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Qs from 'qs';
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '../utils/utils';
 
 const Axios = axios.create({
   timeout: 5000,
@@ -35,6 +35,7 @@ Axios.interceptors.response.use(
     let msg = '';
     if (error && error.response) {
       code = error.response.status;
+      console.log(code);
 
       switch (code) {
         case 401: // 未授权登录

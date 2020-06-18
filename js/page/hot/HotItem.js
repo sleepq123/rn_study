@@ -1,8 +1,11 @@
 import React, {PureComponent} from 'react';
 import {TouchableOpacity, Text, View, Image, StyleSheet} from 'react-native';
-import {Icon, Toast} from '@ant-design/react-native';
+import {Icon, Modal} from '@ant-design/react-native';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {actions} from '../../store/modules/favorite';
 
+import {Toast} from '../../utils/utils';
 import NavigationUtil from '../../navigator/NavigationUtil';
 
 class HotItem extends PureComponent {
@@ -11,8 +14,37 @@ class HotItem extends PureComponent {
     this.state = {};
   }
 
-  _handleCollect = () => {
-    Toast.success('收藏成功');
+  // 判断item是否已收藏
+  isCollect = () => {
+    return !!this.props.items.find(({id}) => this.props.options.id === id);
+  };
+
+  handleCollect = options => {
+    const {id} = options;
+    let operations = [];
+    // 判断是否已收藏
+    if (this.isCollect) {
+      operations = [
+        {
+          text: '收藏',
+          onPress: () => {
+            this.props.addFavoriteItem(options);
+            Toast.success('收藏成功');
+          },
+        },
+      ];
+    } else {
+      operations = [
+        {
+          text: '取消收藏',
+          onPress: () => {
+            this.props.addFavoriteItem(id);
+            Toast.success('取消收藏');
+          },
+        },
+      ];
+    }
+    Modal.operation(operations);
   };
 
   _alert = msg => {
@@ -34,6 +66,9 @@ class HotItem extends PureComponent {
         style={styles.itemContainer}
         onPress={() => {
           this.gotoDetailPage(target);
+        }}
+        onLongPress={() => {
+          this.handleCollect(this.props.options);
         }}>
         <View style={styles.itemTitle}>
           <Text style={styles.titleFont} numberOfLines={2}>
@@ -67,6 +102,7 @@ class HotItem extends PureComponent {
             />
           </View>
         )}
+        {/* {this.isCollect() && <View>已收藏</View>}S */}
       </TouchableOpacity>
     );
   }
@@ -111,4 +147,18 @@ HotItem.defaultProps = {
   options: {},
 };
 
-export default HotItem;
+const mapStateToProps = (state /*, ownProps*/) => {
+  return {
+    items: state.favorite.items,
+  };
+};
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    addFavoriteItem: item => dispatch(actions.addFavoriteItem(item)),
+    delFavoriteItem: id => dispatch(actions.delFavoriteItem(id)),
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HotItem);

@@ -50,11 +50,7 @@ function SearchPage(props) {
       q,
     };
 
-    try {
-      let res = await appService.doSearch(params);
-    } catch (error) {
-      console.log(error);
-    }
+    let res = await appService.doSearch(params);
   };
 
   const _listTag = list => {

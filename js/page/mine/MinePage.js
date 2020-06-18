@@ -5,7 +5,7 @@ import {actions} from '../../store/modules/theme';
 
 import NavigationUtil from '../../navigator/NavigationUtil';
 import NavItem from '../../components/NavItem';
-import {Toast} from '@ant-design/react-native';
+import {Toast} from '../../utils/utils';
 
 import AnalyticsUtil from '../../res/nativeModule/AnalyticsUtil';
 let mineJson = require('../../res/json/mine.json');
@@ -23,7 +23,7 @@ class MinePage extends Component {
         console.log(AnalyticsUtil.onPageStart);
 
         this.props.changeTheme('#8a28db');
-        Toast.success('主题切换成功');
+        Toast.success('主题切换成功！');
         AnalyticsUtil.onPageEnd('mine');
         break;
       case 'github':

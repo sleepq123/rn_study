@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {Toast, ActivityIndicator} from '@ant-design/react-native';
+import {ActivityIndicator} from '@ant-design/react-native';
+import {Toast} from '../../utils/utils';
 
 import DataSource from '../../expand/DataSource';
 import {actions} from '../../store/modules/hot';
