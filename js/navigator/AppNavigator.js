@@ -39,6 +39,11 @@ class AppNavigator extends Component {
     }
   }
 
+  skip = () => {
+    this.setState({isWelcome: false});
+    clearTimeout(this._timer);
+  };
+
   render() {
     const {isWelcome} = this.state;
     return (
@@ -46,7 +51,11 @@ class AppNavigator extends Component {
         <NavigationContainer>
           <Stack.Navigator headerMode="none" backBehavior="none">
             {isWelcome ? (
-              <Stack.Screen name="Welcome" component={WelcomePage} />
+              <Stack.Screen
+                name="Welcome"
+                component={WelcomePage}
+                skip={this.skip}
+              />
             ) : (
               <Stack.Screen
                 name="App"
